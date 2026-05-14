@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+*.compile
+*.so
+.DS_Store
+.env
+brief.md
+research.md
+newsletter_draft.md
+newsletters/
+logs/

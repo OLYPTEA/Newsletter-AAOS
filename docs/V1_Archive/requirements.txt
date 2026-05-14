@@ -1,0 +1,5 @@
+anthropic
+crewai
+pydantic
+python-dotenv
+fpdf2
