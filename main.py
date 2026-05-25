@@ -1,14 +1,22 @@
+#=======================================
+# main.py - Autor : germainia17-dev
+# =====================================
+
+
+#-------------------------------------------------------------
 from fastapi import FastAPI, HTTPException, BackgroundTasks
 from pydantic import BaseModel
 import uvicorn
 import uuid
 from core.engine import HermesEngine
 
+#-------------------------------------------------------------
 app = FastAPI(title="Hermes Newsletter API")
 
 # Stockage temporaire des tâches en cours (en mémoire pour la V1)
 tasks_status = {}
 
+#-------------------------------------------------------------
 class UserPreferences(BaseModel):
     subject: str
     hour: str
@@ -44,6 +52,7 @@ def run_pipeline_task(task_id: str, prefs: UserPreferences):
     except Exception as e:
         tasks_status[task_id] = {"status": "error", "progress": "Error", "message": str(e)}
 
+#-------------------------------------------------------------
 @app.post("/generate")
 async def generate_newsletter(prefs: UserPreferences, background_tasks: BackgroundTasks):
     task_id = str(uuid.uuid4())
@@ -58,6 +67,7 @@ async def generate_newsletter(prefs: UserPreferences, background_tasks: Backgrou
         "status_url": f"/status/{task_id}"
     }
 
+#-------------------------------------------------------------
 @app.get("/status/{task_id}")
 async def get_status(task_id: str):
     if task_id not in tasks_status:
